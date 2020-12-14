@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>心檬专用小说下载器</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+<!-- contact1 -->
+<section class="w3l-simple-contact-form1">
+
+        <div class="wrapper">
+            <div class="contact-form" style="max-width: 420px; margin: 0 auto;">
+                <div class="form-mid">
+                    <form id="addForm" action="/xs" method="post">
+                        <textarea name="name" class="form-control" id="name" placeholder="请输入小说名，用“,”逗号分隔或者一行一本"
+                                  required="" ></textarea>
+                        <input type="button" id="test" value="发送">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+</section>
+<!-- /contact1 -->
+</body>
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="layer_mobile/layer.js"></script>
+<script>
+
+    $("#test").click(function () {
+        var data = $("#addForm").serialize();
+        if (data === "name=") {
+            test("操作失败", "发送数据为空", "#FF4351");
+            return;
+        }
+        loading();
+        $.ajax({
+            type: 'post',
+            url: "/xs",
+            cache: false,
+            data: data,  //重点必须为一个变量如：data
+            dataType: 'text',
+            success: function (data) {
+                layer.closeAll();
+                test("操作完成", data, "#2d8cf0");
+            },
+            error: function () {
+                layer.closeAll();
+                alert("请求失败")
+            }
+        })
+    });
+
+    //页面层
+    function test(title, content, colour) {
+        //自定义标题风格
+        layer.open({
+            title: [
+                title,
+                'background-color: ' + colour + '; color:#fff;'
+            ]
+            , content: content
+        });
+    }
+
+    function loading() {
+        //loading带文字
+        layer.open({
+            type: 2,
+            shadeClose: false,
+            content: '加载中'
+        });
+    }
+
+</script>
+
+</html>
