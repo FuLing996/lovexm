@@ -13,17 +13,17 @@
 <!-- contact1 -->
 <section class="w3l-simple-contact-form1">
 
-        <div class="wrapper">
-            <div class="contact-form" style="max-width: 420px; margin: 0 auto;">
-                <div class="form-mid">
-                    <form id="addForm" action="/xs" method="post">
+    <div class="wrapper">
+        <div class="contact-form" style="max-width: 420px; margin: 0 auto;">
+            <div class="form-mid">
+                <form id="addForm" action="/xs" method="post">
                         <textarea name="name" class="form-control" id="name" placeholder="请输入小说名，用“,”逗号分隔或者一行一本"
-                                  required="" ></textarea>
-                        <input type="button" id="test" value="发送">
-                    </form>
-                </div>
+                                  required=""></textarea>
+                    <input type="button" id="test" value="发送">
+                </form>
             </div>
         </div>
+    </div>
 
 </section>
 <!-- /contact1 -->
@@ -33,17 +33,21 @@
 <script>
 
     $("#test").click(function () {
-        var data = $("#addForm").serialize();
-        if (data === "name=") {
+        var name = $("#name").val();
+        if (name.trim() === "") {
             test("操作失败", "发送数据为空", "#FF4351");
             return;
         }
+
         loading();
         $.ajax({
             type: 'post',
-            url: "/xs",
+            url: "https://service-ea821r2i-1257710403.gz.apigw.tencentcs.com/release/downloadNovel",
+            contentType: 'application/json',
             cache: false,
-            data: data,  //重点必须为一个变量如：data
+            data: JSON.stringify({
+                name: name
+            }),  //重点必须为一个变量如：data
             dataType: 'text',
             success: function (data) {
                 layer.closeAll();
